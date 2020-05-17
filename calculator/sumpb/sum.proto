@@ -1,0 +1,71 @@
+syntax = "proto3";
+
+package calculator;
+option go_package="sumpb";
+
+
+message Arguments {
+    int32 a = 1;
+    int32 b = 2;
+}
+
+message SumRequest  {
+    Arguments arguments=1;
+}
+
+message SumResponse {
+    int32 result=1;
+}
+
+message Argument {
+    int32 num = 1;
+}
+
+message NumberPrimeDecomposeRequest {
+    Argument argument = 1;
+}
+
+message NumberPrimeDecomposeResponse {
+    int32 result = 1;
+}
+
+message AverageRequest{
+    Argument argument = 1;
+}
+
+message AverageResponse{
+    int32 result = 1;
+}
+
+message MaxRequest{
+    Argument argument = 1; 
+}
+
+message MaxResponse {
+    int32 result = 1;
+}
+
+message SquareRootRequest {
+    Argument argument = 1;
+}
+
+message SquareRootResponse {
+    double square_root =  1;
+}
+
+service SumService {
+    //Unary
+    rpc Sum(SumRequest) returns(SumResponse) {};
+
+    //Server Stream
+    rpc NumberPrimeDecompose(NumberPrimeDecomposeRequest) returns (stream NumberPrimeDecomposeResponse) {};
+    
+    //Cleint Stream
+    rpc Average(stream AverageRequest)  returns(AverageResponse) {};
+
+    rpc Max(stream MaxRequest) returns(stream MaxResponse) {};
+    //Error handling
+    //This RPC throws error if argument if number is negative
+    rpc SquareRoot(SquareRootRequest) returns(SquareRootResponse) {};
+}
+
